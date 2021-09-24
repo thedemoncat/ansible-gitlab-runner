@@ -41,7 +41,10 @@
     {% if gitlab_runner.shell is defined %}
     --shell '{{ gitlab_runner.shell }}'
     {% endif %}
-    --limit '{{ gitlab_runner.concurrent_specific|default(0) }}'
+    {% if gitlab_runner.concurrent_specific is defined %}
+    --limit '{{ gitlab_runner.concurrent_specific }}'
+    {% endif %}
+    --concurrent '{{ gitlab_runner.concurrent|default(1) }}'
     --output-limit '{{ gitlab_runner.output_limit|default(4096) }}'
     --locked='{{ gitlab_runner.locked|default(false) }}'
     {% for env_var in gitlab_runner.env_vars|default([]) %}
